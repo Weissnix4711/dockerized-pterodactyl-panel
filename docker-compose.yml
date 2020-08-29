@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   panel:
     build:
@@ -9,7 +9,8 @@ services:
         mysql_password: "testpass"
     restart: unless-stopped
     volumes:
-#      - .:.
+      - ./data/pterodactyl:/var/www/pterodactyl
+      - ./data/nginx:/etc/nginx/conf.d
     ports:
       - "29900":"80"
-#      - "29901":"443"
+      - "29901":"443"
