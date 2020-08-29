@@ -26,6 +26,9 @@ ENV MYSQL_PASSWORD ${mysql_password}
 # Update package lists
 RUN apt update
 
+# General
+RUN apt install -y curl
+
 # MariaDB
 RUN apt install -y mariadb-common mariadb-server mariadb-client \
 	&& /etc/init.d/mysql start
@@ -58,7 +61,7 @@ RUN curl -sS https://getcomposer.org/installer \
 # Configure MariaDB
 RUN echo -e "\
 	# Current root pass
-	\n\n\
+	\n\
 	# Set root pass?
 	Y\n\
 	# Your root pass
@@ -85,4 +88,52 @@ RUN mysql -u root -p -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_
 ## Panel installation ##
 ########################
 
-# todo
+# Download pterodactyl files
+RUN mkdir -p /var/www/pterodactyl \
+	&& cd /var/www/pterodactyl \
+	&& curl -Lo panel.tar.gz "https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz" \
+	&& tar --strip-components=1 -x xzvf panel.tar.gz \
+	&& chmod -R 755 storage/* bootstrap/cache/
+
+# Composer and key gen
+RUN composer install --no-dev --optimize-autoloader \
+	&& php artisan key:generate --force
+
+# Configure
+RUN echo -e "\
+	# Egg author  email
+	dev.aldrian@gmail.com\n\
+	# Application url
+	http://localhost\n\
+	# Timezone
+	Europe/London\n\
+	# Cache Driver
+	redis\n\
+	# Session Driver
+	redis\n\
+	# Queue Driver
+	redis\n\
+	# UI Based Settings Editor
+	yes\n\
+	# REDIS SETTINGS
+	# Redis host
+	localhost\n\
+	# Redis password
+	\n\
+	# Redis port
+	\n\
+	" | php artisan p:environment:setup 2>/dev/null
+
+RUN echo -e "\
+	todo\n\
+	" | php artisan p:environment:database 2>/dev/null
+
+RUN php artisan p:environment:mail \
+	&& php artisan migrate --seed \
+	&& php artisan p:user:make
+
+# Set folder permissions
+RUN chown -R www-data:www-data *
+
+# Crontab
+RUN crontab -l | { cat; echo "* * * * * php /var/www/pterodactyl/artisan schedule:run >> /dev/null 2>&1"; } | crontab -
