@@ -1,0 +1,15 @@
+version: '3'
+services:
+  panel:
+    build:
+      context: .
+      args:
+        mysql_db: "pterodactyl"
+        mysql_user: "pterodactyl"
+        mysql_password: "testpass"
+    restart: unless-stopped
+    volumes:
+#      - .:.
+    ports:
+      - "29900":"80"
+#      - "29901":"443"
