@@ -12,5 +12,26 @@ services:
       - ./data/pterodactyl:/var/www/pterodactyl
       - ./data/nginx:/etc/nginx/conf.d
     ports:
-      - "29900":"80"
-      - "29901":"443"
+      - 9000:9000
+    depends_on:
+      - mysql
+      - redis
+  nginx:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d:ro
+    ports:
+      - 29900:80
+    depends_on:
+      - panel
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+  mysql:
+    image: mysql
+    restart: unless-stopped
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+    ports:
+      - 3306:3306
