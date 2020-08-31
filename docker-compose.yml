@@ -28,6 +28,7 @@ services:
     restart: unless-stopped
   mysql:
     image: mysql
+    env_file: ./mysql/mysql.env
     restart: unless-stopped
     volumes:
       - ./mysql/db:/var/lib/mysql
