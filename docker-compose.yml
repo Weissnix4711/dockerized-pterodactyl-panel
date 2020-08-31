@@ -2,15 +2,13 @@ version: "3"
 services:
   panel:
     build:
-      context: .
-      args:
-        mysql_db: "pterodactyl"
-        mysql_user: "pterodactyl"
-        mysql_password: "testpass"
+      context: ./panel
+    environment:
+      MYSQL_USER: "pterodactyl"
+      MYSQL_PASSWORD: ""
     restart: unless-stopped
     volumes:
-      - ./data/pterodactyl:/var/www/pterodactyl
-      - ./data/nginx:/etc/nginx/conf.d
+      - ./panel/panel-data:/var/www/pterodactyl
     ports:
       - 9000:9000
     depends_on:
