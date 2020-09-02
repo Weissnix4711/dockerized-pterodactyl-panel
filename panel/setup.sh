@@ -37,7 +37,7 @@ php artisan p:environment:setup
 echo "database"
 php artisan p:environment:database
 echo "smtp"
-php artisan p:environment:smtp
+php artisan p:environment:mail
 
 echo "database - this may take some time"
 php artisan migrate --seed
