@@ -33,5 +33,3 @@ services:
     restart: unless-stopped
     volumes:
       - ./mysql/db:/var/lib/mysql
-    ports:
-      - 3306:3306
