@@ -28,7 +28,7 @@ services:
     image: redis:alpine
     restart: unless-stopped
   mysql:
-    image: mysql
+    image: mariadb:latest
     env_file: ./mysql/mysql.env
     restart: unless-stopped
     volumes:
