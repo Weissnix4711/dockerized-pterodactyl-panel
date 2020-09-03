@@ -3,9 +3,7 @@ services:
   panel:
     build:
       context: ./panel
-    environment:
-      MYSQL_USER: "pterodactyl"
-      MYSQL_PASSWORD: ""
+    env_file: ./panel/panel.env
     restart: unless-stopped
     tty: true
     volumes:
