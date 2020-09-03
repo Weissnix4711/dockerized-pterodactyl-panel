@@ -3,11 +3,15 @@ services:
   panel:
     build:
       context: ./panel
+      args:
+        panel_ver: v0.7.18
     env_file: ./panel/panel.env
     restart: unless-stopped
     tty: true
     volumes:
-      - ./panel/panel-data:/var/www/pterodactyl
+      - ${PWD}/panel/panel-data/ptero.env:/panel/ptero.env
+      - ./panel/panel-data/storage:/panel/storage
+      - ./panel/panel-data/bootstrap/cache:/panel/bootstrap/cache
     ports:
       - 9000:9000
     depends_on:
@@ -17,7 +21,7 @@ services:
     image: nginx:stable-alpine
     restart: unless-stopped
     volumes:
-      - ./nginx/conf:/etc/nginx/conf.d:ro
+      - ./nginx/conf:/etc/nginx/conf.d
     ports:
       - 29900:80
     depends_on:
