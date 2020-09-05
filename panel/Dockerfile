@@ -28,9 +28,6 @@ RUN apk add --no-cache --update tini dcron curl supervisor tar unzip \
 
 FROM base as build
 
-# Install yarn
-RUN apk add yarn
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -45,12 +42,6 @@ RUN cp .env.example .env; \
 
 # Storage template
 RUN find storage -type d > .storage.template
-
-# Yarn stuff
-RUN yarn install --production; \
-	yarn add cross-env; \
-	yarn run build:production; \
-	rm -rf node_modules;
 
 # Permissions
 RUN chmod -R 755 storage/* bootstrap/cache
