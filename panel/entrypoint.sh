@@ -71,4 +71,7 @@ echo "####################"
 echo "## STARTING STUFF ##"
 echo "####################"
 
+# Display errors
+echo "php_flag[display_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+
 exec "$@"
