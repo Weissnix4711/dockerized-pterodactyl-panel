@@ -46,14 +46,15 @@ RUN cp .env.example .env; \
 # Storage template
 RUN find storage -type d > .storage.template
 
-# Permissions
-RUN chmod -R 755 storage/* bootstrap/cache
-
 # Yarn stuff
 RUN yarn install --production; \
 	yarn add cross-env; \
 	yarn run build:production; \
 	rm -rf node_modules;
+
+# Permissions
+RUN chmod -R 755 storage/* bootstrap/cache
+RUN chown -R www-data:www-data .
 
 #################
 ## Final Stage ##
@@ -62,7 +63,7 @@ RUN yarn install --production; \
 FROM base as final
 
 # Copy from build
-COPY --from=build /panel /panel
+COPY --from=build --chown=www-data:www-data /panel /panel
 
 # Entrypoint
 COPY ./entrypoint.sh /entrypoint.sh
