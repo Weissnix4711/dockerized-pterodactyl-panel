@@ -18,7 +18,7 @@ services:
       # Cache
       - ./panel/data/bootstrap/cache:/panel/bootstrap/cache
       # Public
-      - ./panel/data/public:/panel/public
+      - public:/panel/public
     ports:
       - 9000:9000
     depends_on:
@@ -29,6 +29,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
+      - public:/panel/public
     ports:
       - 29900:80
     depends_on:
@@ -42,3 +43,5 @@ services:
     restart: unless-stopped
     volumes:
       - ./mysql/db:/var/lib/mysql
+volumes:
+  public:
