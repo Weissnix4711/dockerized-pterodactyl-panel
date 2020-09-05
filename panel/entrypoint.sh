@@ -65,3 +65,10 @@ if [ ! -s ptero.env ]; then
 fi
 
 echo -e "\n## INITIALISATION IS FINISHED! ##"
+
+echo ""
+echo "####################"
+echo "## STARTING STUFF ##"
+echo "####################"
+
+exec "$@"

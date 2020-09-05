@@ -5,6 +5,8 @@ services:
       context: ./panel
       args:
         panel_ver: v0.7.18
+    # Edit the follwing line to use your own custom command
+    command: [ "/usr/local/sbin/php-fpm", "--nodaemonize" ]
     env_file: ./panel/panel.env
     restart: unless-stopped
     tty: true

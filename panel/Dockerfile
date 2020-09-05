@@ -69,3 +69,4 @@ COPY --from=build --chown=www-data:www-data /panel /panel
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/sbin/tini", "--", "/entrypoint.sh" ]
+CMD [ "/usr/local/sbin/php-fpm", "--nodaemonize" ]
