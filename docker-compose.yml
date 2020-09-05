@@ -11,9 +11,14 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
-      - ${PWD}/panel/panel-data/ptero.env:/panel/ptero.env
-      - ./panel/panel-data/storage:/panel/storage
-      - ./panel/panel-data/bootstrap/cache:/panel/bootstrap/cache
+      # App key file
+      - ./panel/data/appkey.env:/panel/appkey.env
+      # Storage
+      - ./panel/data/storage:/panel/storage
+      # Cache
+      - ./panel/data/bootstrap/cache:/panel/bootstrap/cache
+      # Public
+      - ./panel/data/public:/panel/public
     ports:
       - 9000:9000
     depends_on:
