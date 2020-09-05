@@ -1,15 +1,25 @@
 version: "3"
 services:
+
+  ###########
+  ## PANEL ##
+  ###########
+
   panel:
+
     build:
       context: ./panel
       args:
         panel_ver: v0.7.18
+
     # Edit the follwing line to use your own custom command
     command: [ "/usr/local/sbin/php-fpm", "--nodaemonize" ]
+
     env_file: ./panel/panel.env
     restart: unless-stopped
+
     tty: true
+
     volumes:
       # App key file
       - ./panel/data/appkey.env:/panel/appkey.env
@@ -21,27 +31,53 @@ services:
       - public:/panel/public
     ports:
       - 9000:9000
+
     depends_on:
       - mysql
       - redis
+
+  ###############
+  ## WEBSERVER ##
+  ###############
+
   nginx:
+
     image: nginx:stable-alpine
     restart: unless-stopped
+
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - public:/panel/public
+
     ports:
+      # Edit the '29900' value below if needed.
+      # This is the port on which the panel will be accessible
       - 29900:80
+
     depends_on:
       - panel
+
+  ###########
+  ## CACHE ##
+  ###########
+
   redis:
+
     image: redis:alpine
     restart: unless-stopped
+
+  ##############
+  ## DATABASE ##
+  ##############
+
   mysql:
+
     image: mariadb:latest
     env_file: ./mysql/mysql.env
     restart: unless-stopped
+
     volumes:
       - ./mysql/db:/var/lib/mysql
+
 volumes:
   public:
