@@ -73,5 +73,7 @@ echo "####################"
 
 # Display errors
 echo "php_flag[display_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+echo "php_admin_value[error_log] = /var/log/fpm-php.www.log" >> /usr/local/etc/php-fpm.d/www.conf
+echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 exec "$@"
