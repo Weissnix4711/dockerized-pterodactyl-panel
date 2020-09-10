@@ -62,6 +62,10 @@ if [ ! -s appkey.env ]; then
     php artisan migrate --force
     php artisan db:seed --force
 
+    echo -e "\nCreating first user..."
+    sleep 1
+    php artisan p:user:make --email=${FU_EMAIL} --username=${FU_USERNAME} --name-first=${FU_NAME_FIRST} --name-last=${FU_NAME_LAST} --password=${FU_PASSWORD} --admin=${FU_ADMIN}
+
     echo -e "\n## FIRST TIME SETUP DONE! ##"
 fi
 
