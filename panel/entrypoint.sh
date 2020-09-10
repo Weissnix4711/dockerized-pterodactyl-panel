@@ -27,6 +27,7 @@ fi
 
 # Set permissions for storage/framework
 chmod -R 775 storage/framework
+chown -R www-data:www-data storage/
 
 # Check for config file
 if [ ! -s appkey.env ]; then
