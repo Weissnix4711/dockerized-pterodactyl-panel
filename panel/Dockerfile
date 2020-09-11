@@ -56,6 +56,10 @@ FROM base as final
 # Copy from build
 COPY --from=build --chown=www-data:www-data /panel /panel
 
+VOLUME [ "public/" ]
+VOLUME [ "storage/" ]
+VOLUME [ "bootstrap/cache" ]
+
 # Entrypoint
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
