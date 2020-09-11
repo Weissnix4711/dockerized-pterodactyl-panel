@@ -16,8 +16,7 @@ echo "################################"
 cd /panel
 
 # Create needed dirs if not exist
-mkdir -p ./storage > /dev/null
-if find ./storage -mindepth 1 | read; then
+if [ ! -d "./storage" ]; then
     echo -e "\nStorage dir is empty!"
     mkdir -p storage
     cat .storage.template | while read line; do
