@@ -16,14 +16,12 @@ echo "################################"
 cd /panel
 
 # Create needed dirs if not exist
-if [ ! -d "./storage" ]; then
-    echo -e "\nStorage dir is empty!"
-    mkdir -p storage
-    cat .storage.template | while read line; do
-        mkdir -p "/panel/${line}"
-        echo "created ${line}"
-    done
-fi
+echo -e "\nAttempting to create storage directory"
+mkdir ./storage
+cat .storage.template | while read line; do
+    mkdir -p "/panel/${line}"
+    echo "created ${line}"
+done
 
 # Set permissions for storage/framework
 chmod -R 775 storage/framework
