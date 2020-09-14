@@ -64,6 +64,11 @@ if [ ! -s appkey.env ]; then
     sleep 1
     php artisan p:user:make --email=${FU_EMAIL} --username=${FU_USERNAME} --name-first=${FU_NAME_FIRST} --name-last=${FU_NAME_LAST} --password=${FU_PASSWORD} --admin=${FU_ADMIN}
 
+    # Display errors
+    echo "php_flag[display_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+    echo "php_admin_value[error_log] = /var/log/fpm-php.www.log" >> /usr/local/etc/php-fpm.d/www.conf
+    echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
+
     echo -e "\n## FIRST TIME SETUP DONE! ##"
 fi
 
@@ -74,9 +79,5 @@ echo "####################"
 echo "## STARTING STUFF ##"
 echo "####################"
 
-# Display errors
-echo "php_flag[display_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
-echo "php_admin_value[error_log] = /var/log/fpm-php.www.log" >> /usr/local/etc/php-fpm.d/www.conf
-echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 exec "$@"
