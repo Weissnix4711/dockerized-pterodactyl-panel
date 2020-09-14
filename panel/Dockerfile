@@ -60,8 +60,11 @@ VOLUME [ "public/" ]
 VOLUME [ "storage/" ]
 VOLUME [ "bootstrap/cache" ]
 
+# Supervisor
+COPY ./supervisord.conf /etc/supervisord.conf
+
 # Entrypoint
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT [ "/sbin/tini", "--", "/entrypoint.sh" ]
-CMD [ "/usr/local/sbin/php-fpm", "--nodaemonize" ]
+CMD [ "supervisord", "-n", "-c", "/etc/supervisord.conf" ]
