@@ -27,6 +27,12 @@ done
 chmod -R 775 storage/framework
 chown -R www-data:www-data storage/
 
+echo -e "\nWaiting for database..."
+until nc -z -v -w30 ${DB_HOST} ${DB_PORT}; do
+    sleep 5
+    echo "Connection timeout :("
+done
+
 # Check for config file
 if [ ! -s appkey.env ]; then
     echo ""
@@ -78,11 +84,5 @@ echo ""
 echo "####################"
 echo "## STARTING STUFF ##"
 echo "####################"
-
-echo -e "\nWaiting for database..."
-until nc -z -v -w30 ${DB_HOST} ${DB_PORT}; do
-    sleep 5
-    echo "Connection timeout :("
-done
 
 exec "$@"
