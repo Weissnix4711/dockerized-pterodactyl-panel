@@ -79,5 +79,10 @@ echo "####################"
 echo "## STARTING STUFF ##"
 echo "####################"
 
+echo -e "\nWaiting for database..."
+until nc -z -v -w30 ${DB_HOST} ${DB_PORT}; do
+    sleep 5
+    echo "Connection timeout :("
+done
 
 exec "$@"
