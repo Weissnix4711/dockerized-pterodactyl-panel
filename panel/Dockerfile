@@ -60,6 +60,9 @@ VOLUME [ "public/" ]
 VOLUME [ "storage/" ]
 VOLUME [ "bootstrap/cache" ]
 
+# Cron
+RUN echo "* * * * * /usr/local/bin/php /panel/artisan schedule:run >> /dev/null 2>&1" >> /var/spool/cron/crontabs/root
+
 # Supervisor
 COPY ./supervisord.conf /etc/supervisord.conf
 
