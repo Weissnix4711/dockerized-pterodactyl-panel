@@ -13,7 +13,7 @@ services:
         panel_ver: v0.7.18
 
     # Edit the follwing line to use your own custom command
-    command: [ "/usr/local/sbin/php-fpm", "--nodaemonize" ]
+    command: [ "supervisord", "-n", "-c", "/etc/supervisord.conf" ]
 
     env_file: ./panel/panel.env
     restart: unless-stopped
